@@ -1,4 +1,4 @@
-# Perfect Neovim Setup
+# Perfect Neovim Setup!
 
 Your one-script solution for the perfect Neovim development environment with intelligent tri-mode system and Claude Code integration.
 
@@ -29,7 +29,7 @@ Switch between three intelligent modes based on your workflow:
 
 - **Python** (Pyright LSP)
 - **Go** (gopls LSP)  
-- **JavaScript/TypeScript** (tsserver LSP)
+- **JavaScript/TypeScript** (TypeScript Language Server)
 - **Lua** (lua_ls LSP)
 - **Rust** (rust_analyzer LSP)
 
@@ -301,6 +301,39 @@ Your status line shows:
 
 ## 🆘 Troubleshooting
 
+The setup script now includes automatic fixes for common issues, but here are manual solutions if needed:
+
+### Mason Package Errors
+**Issue**: "Cannot find package tsserver" or similar errors  
+**Solution**: Already fixed in setup script! If you see this:
+```bash
+# In Neovim
+:MasonTroubleshoot
+# OR manually install with correct names:
+:MasonInstall pyright gopls typescript-language-server lua-language-server rust-analyzer
+```
+
+### Python LSP Installation Issues
+**Issue**: "externally-managed-environment" errors  
+**Solution**: Script now handles this automatically by using system packages first:
+```bash
+# Manual fix if needed:
+sudo apt install python3-pylsp  # Ubuntu/Debian
+# OR
+pip3 install --user python-lsp-server --break-system-packages
+```
+
+### Rust Toolchain Issues
+**Issue**: "rustup could not choose a version of cargo to run"  
+**Solution**: Fixed automatically in script, manual fix:
+```bash
+rustup default stable
+```
+
+### Neo-tree Migration Warnings
+**Issue**: Neo-tree showing migration/deprecation warnings  
+**Solution**: Fixed automatically in script with warning suppression
+
 ### Plugin Issues
 ```bash
 # In Neovim
@@ -312,7 +345,7 @@ Your status line shows:
 ```bash
 # In Neovim
 :Mason
-# Install missing language servers
+# Language servers install automatically when you open relevant files
 ```
 
 ### Permission Issues
@@ -324,6 +357,18 @@ chmod +x setup.sh
 Ensure Windows is in PATH:
 ```bash
 echo $PATH | grep -q "/mnt/c/Windows/System32" || echo 'export PATH="$PATH:/mnt/c/Windows/System32"' >> ~/.bashrc
+```
+
+### Complete Reset (if all else fails)
+```bash
+# Use the included fix scripts:
+./fix_setup_issues.sh    # Fix common setup problems
+./fix_neotree.sh         # Fix Neo-tree warnings
+./reset_mason.sh         # Reset Mason completely
+
+# Or manual cleanup:
+rm -rf ~/.config/nvim ~/.cache/nvim ~/.local/share/nvim
+./setup.sh  # Re-run setup
 ```
 
 ## 📝 License

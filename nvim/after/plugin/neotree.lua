@@ -4,6 +4,22 @@ if not ok then
     return
 end
 
+-- Suppress Neo-tree migration warnings and set modern defaults
+vim.g.neo_tree_remove_legacy_commands = 1
+
+-- Disable deprecation warnings for Neo-tree
+local notify = vim.notify
+vim.notify = function(msg, level, opts)
+    if type(msg) == "string" and (
+        msg:match("neo%-tree") and msg:match("deprecated") or
+        msg:match("neo%-tree") and msg:match("migration") or
+        msg:match("neo%-tree") and msg:match("legacy")
+    ) then
+        return -- Suppress Neo-tree deprecation warnings
+    end
+    notify(msg, level, opts)
+end
+
 neotree.setup({
     close_if_last_window = false,
     popup_border_style = "rounded",
